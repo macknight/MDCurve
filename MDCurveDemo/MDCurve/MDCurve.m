@@ -15,8 +15,8 @@
 
 @implementation MDCurve
 
-- (CGPoint)pointWithUniformT:(double)t {
-  return CGPointMake([self x_v:t], [self y_v:t]);
+- (CGPoint)pointWithUniformT:(double)v {
+  return CGPointMake([self x_v:v], [self y_v:v]);
 }
 
 - (double)length {
@@ -116,8 +116,7 @@
     return 0;
   }
   if (self.lineLengthInverseFunction) {
-    double length = [self s_t:1];
-    return self.lineLengthInverseFunction(v * length);
+    return self.lineLengthInverseFunction(v * self.length);
   }
   if (v <= 0) {
     return 0;

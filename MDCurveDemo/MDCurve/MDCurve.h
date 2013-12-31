@@ -20,9 +20,8 @@ typedef double(^MDCurveFuction)(double x);
 @property (nonatomic, copy) MDCurveFuction lineLengthFuction;
 @property (nonatomic, copy) MDCurveFuction lineLengthInverseFunction;
 
-@property (nonatomic, assign) double length;
-
-- (CGPoint)pointWithUniformT:(double)t;
+- (double)length;
+- (CGPoint)pointWithUniformT:(double)v;
 - (void)drawInContext:(CGContextRef)context step:(int)step;
 - (void)drawInCurrentContextWithStep:(int)step;
 

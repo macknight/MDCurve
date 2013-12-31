@@ -7,7 +7,7 @@ MDCurve 有三个block：
 
 @property (nonatomic, copy) MDCurvePointFuction curveFuction;
 
-property (nonatomic, copy) MDCurveFuction lineLengthFuction;
+@property (nonatomic, copy) MDCurveFuction lineLengthFuction;
 
 @property (nonatomic, copy) MDCurveFuction lineLengthInverseFunction;
 

@@ -19,6 +19,9 @@
 		D0DA6C29186C86E3004ACD67 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0DA6C11186C86E3004ACD67 /* UIKit.framework */; };
 		D0DA6C31186C86E3004ACD67 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0DA6C2F186C86E3004ACD67 /* InfoPlist.strings */; };
 		D0DA6C33186C86E3004ACD67 /* MDCurveDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C32186C86E3004ACD67 /* MDCurveDemoTests.m */; };
+		D0DA6C49186C8919004ACD67 /* MDCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C48186C8919004ACD67 /* MDCurve.m */; };
+		D0DA6C4C186C8F52004ACD67 /* MDCurveDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C4B186C8F52004ACD67 /* MDCurveDemoViewController.m */; };
+		D0DA6C4F186C901C004ACD67 /* MDDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C4E186C901C004ACD67 /* MDDemoView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,12 @@
 		D0DA6C2E186C86E3004ACD67 /* MDCurveDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MDCurveDemoTests-Info.plist"; sourceTree = "<group>"; };
 		D0DA6C30186C86E3004ACD67 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D0DA6C32186C86E3004ACD67 /* MDCurveDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MDCurveDemoTests.m; sourceTree = "<group>"; };
+		D0DA6C47186C8919004ACD67 /* MDCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MDCurve.h; path = MDCurve/MDCurve.h; sourceTree = SOURCE_ROOT; };
+		D0DA6C48186C8919004ACD67 /* MDCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MDCurve.m; path = MDCurve/MDCurve.m; sourceTree = SOURCE_ROOT; };
+		D0DA6C4A186C8F52004ACD67 /* MDCurveDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDCurveDemoViewController.h; sourceTree = "<group>"; };
+		D0DA6C4B186C8F52004ACD67 /* MDCurveDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDCurveDemoViewController.m; sourceTree = "<group>"; };
+		D0DA6C4D186C901C004ACD67 /* MDDemoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDDemoView.h; sourceTree = "<group>"; };
+		D0DA6C4E186C901C004ACD67 /* MDDemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDDemoView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,10 +116,13 @@
 		D0DA6C13186C86E3004ACD67 /* MDCurveDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D0DA6C3C186C877E004ACD67 /* MDCurve */,
 				D0DA6C1C186C86E3004ACD67 /* AppDelegate.h */,
 				D0DA6C1D186C86E3004ACD67 /* AppDelegate.m */,
 				D0DA6C1F186C86E3004ACD67 /* Images.xcassets */,
 				D0DA6C14186C86E3004ACD67 /* Supporting Files */,
+				D0DA6C4A186C8F52004ACD67 /* MDCurveDemoViewController.h */,
+				D0DA6C4B186C8F52004ACD67 /* MDCurveDemoViewController.m */,
 			);
 			path = MDCurveDemo;
 			sourceTree = "<group>";
@@ -122,6 +134,8 @@
 				D0DA6C16186C86E3004ACD67 /* InfoPlist.strings */,
 				D0DA6C19186C86E3004ACD67 /* main.m */,
 				D0DA6C1B186C86E3004ACD67 /* MDCurveDemo-Prefix.pch */,
+				D0DA6C4D186C901C004ACD67 /* MDDemoView.h */,
+				D0DA6C4E186C901C004ACD67 /* MDDemoView.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -142,6 +156,15 @@
 				D0DA6C2F186C86E3004ACD67 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0DA6C3C186C877E004ACD67 /* MDCurve */ = {
+			isa = PBXGroup;
+			children = (
+				D0DA6C47186C8919004ACD67 /* MDCurve.h */,
+				D0DA6C48186C8919004ACD67 /* MDCurve.m */,
+			);
+			name = MDCurve;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,8 +262,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0DA6C4C186C8F52004ACD67 /* MDCurveDemoViewController.m in Sources */,
 				D0DA6C1E186C86E3004ACD67 /* AppDelegate.m in Sources */,
 				D0DA6C1A186C86E3004ACD67 /* main.m in Sources */,
+				D0DA6C49186C8919004ACD67 /* MDCurve.m in Sources */,
+				D0DA6C4F186C901C004ACD67 /* MDDemoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

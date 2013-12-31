@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MDCurveDemoViewController.h"
 
 @implementation AppDelegate
 
@@ -14,6 +15,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+  MDCurveDemoViewController *controller = [[MDCurveDemoViewController alloc] init];
+  self.window.rootViewController = controller;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

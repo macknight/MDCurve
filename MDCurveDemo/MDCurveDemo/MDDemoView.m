@@ -17,6 +17,11 @@
   return _curve ?: (_curve = [[MDCurve alloc] init]);
 }
 
+- (void)setCurve:(MDCurve *)curve {
+  _curve = curve;
+  [self setNeedsDisplay];
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

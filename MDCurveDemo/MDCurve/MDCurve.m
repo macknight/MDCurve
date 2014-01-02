@@ -8,10 +8,20 @@
 
 #import "MDCurve.h"
 
+#define hugeDeviation 0.1
 #define largeDeviation 0.01
 #define middleDeviation 0.001
 #define littleDeviation 0.0001
+#define hugeDeviationDoubleEqual(a, b) ((a - b) < hugeDeviation && (b - a) < hugeDeviation)
+#define largeDeviationDoubleEqual(a, b) ((a - b) < largeDeviation && (b - a) < largeDeviation)
+#define middleDeviationDoubleEqual(a, b) ((a - b) < middleDeviation && (b - a) < middleDeviation)
 #define doubleEqual(a,b) ((a - b) < littleDeviation && (b - a) < littleDeviation)
+
+@interface MDCurve () {
+  double _length;
+}
+
+@end
 
 @implementation MDCurve
 
@@ -20,7 +30,7 @@
 }
 
 - (double)length {
-  return [self s_t:1];
+  return _length ?: [self s_t:1.];
 }
 
 - (void)drawInContext:(CGContextRef)context step:(int)step {
@@ -97,6 +107,9 @@
 }
 
 - (double)v_t:(double)t {
+  if (t == 1) {
+    return 1;
+  }
   return [self s_t:t] / [self s_t:1];
 }
 
@@ -124,21 +137,36 @@
   if (v >= 1) {
     return 1;
   }
-  //牛顿切线在不动点处似乎是有问题的，所以额外给出
+  //在不动点处直接返回
   if (doubleEqual([self v_t:v], v)) {
     return v;
   }
-  double dv_dt, t, v_t;
+  double lastT;
+  double t = 0.5, testingV = [self v_t:0.5];
+  double bigT = 1.0, smallT = 0.0;
   do {
-    t = arc4random() % 1000 / 1000.;
-    dv_dt =[self dv_dt:t];
-  } while (doubleEqual(dv_dt, 0));
-  
+    lastT = t;
+    if (testingV > v) {
+      bigT = t;
+    } else {
+      smallT = t;
+    }
+    t = (bigT + smallT) / 2.;
+    testingV = [self v_t:t];
+    if (middleDeviationDoubleEqual(lastT, t)) {
+      break;
+    }
+  } while (!doubleEqual(v, testingV));
+  double v_t = [self v_t:t], dv_dt;
   do {
-    dv_dt =[self dv_dt:t];
-    v_t = [self v_t:t];
+    lastT = t;
+    dv_dt = [self dv_dt:t];
     t -= (v_t - v) / dv_dt;
-  } while (!doubleEqual(v_t, v));
+    v_t = [self v_t:t];
+    if (middleDeviationDoubleEqual(v, [self v_t:(lastT + t) / 2])) {
+      return (lastT + t) / 2;
+    }
+  } while (!middleDeviationDoubleEqual(v_t, v));
   return t;
 }
 

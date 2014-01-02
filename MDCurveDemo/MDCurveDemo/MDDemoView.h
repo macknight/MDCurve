@@ -11,6 +11,6 @@
 
 @interface MDDemoView : UIView
 
-@property (nonatomic, readonly) MDCurve *curve;
+@property (nonatomic, strong) MDCurve *curve;
 
 @end

@@ -17,12 +17,13 @@ typedef double(^MDCurveFuction)(double x);
  *  给出线长函数反函数的时候，性能最高，其次是给线长函数，如果只给曲线函数，性能比较低。
  */
 @property (nonatomic, copy) MDCurvePointFuction curveFuction;
-@property (nonatomic, copy) MDCurveFuction lineLengthFuction;
 @property (nonatomic, copy) MDCurveFuction lineLengthInverseFunction;
 
-- (double)length;
+@property (nonatomic, readonly) double length;
+
 - (CGPoint)pointWithUniformT:(double)v;
 - (void)drawInContext:(CGContextRef)context step:(int)step;
 - (void)drawInCurrentContextWithStep:(int)step;
+- (void)generateLengthCache;
 
 @end

@@ -8,17 +8,13 @@
 
 #import "MDCurve.h"
 
-#define hugeDeviation 0.1
-#define largeDeviation 0.01
-#define middleDeviation 0.001
-#define littleDeviation 0.0001
-#define hugeDeviationDoubleEqual(a, b) ((a - b) < hugeDeviation && (b - a) < hugeDeviation)
-#define largeDeviationDoubleEqual(a, b) ((a - b) < largeDeviation && (b - a) < largeDeviation)
-#define middleDeviationDoubleEqual(a, b) ((a - b) < middleDeviation && (b - a) < middleDeviation)
-#define doubleEqual(a,b) ((a - b) < littleDeviation && (b - a) < littleDeviation)
+#define cacheSize 250
+
+#define deviation 0.00001
+#define doubleEqual(a,b) ((a - b) < deviation && (b - a) < deviation)
 
 @interface MDCurve () {
-  double _length;
+  double _lengthWithTList[cacheSize];
 }
 
 @end
@@ -26,11 +22,8 @@
 @implementation MDCurve
 
 - (CGPoint)pointWithUniformT:(double)v {
-  return CGPointMake([self x_v:v], [self y_v:v]);
-}
-
-- (double)length {
-  return _length ?: [self s_t:1.];
+  double t = [self t_v:v];
+  return CGPointMake([self x:t], [self y:t]);
 }
 
 - (void)drawInContext:(CGContextRef)context step:(int)step {
@@ -46,7 +39,31 @@
   [self drawInContext:UIGraphicsGetCurrentContext() step:step];
 }
 
+#pragma mark - setter
+
+- (void)setCurveFuction:(MDCurvePointFuction)curveFuction {
+  _curveFuction = [curveFuction copy];
+}
+
+- (void)setLineLengthInverseFunction:(MDCurveFuction)lineLengthInverseFunction {
+  _lineLengthInverseFunction = [lineLengthInverseFunction copy];
+}
+
+- (double)length {
+  return _lengthWithTList[cacheSize - 1];
+}
+
 #pragma mark - math
+
+- (void)generateLengthCache {
+  double len = 0.;
+  for (int i = 0; i < cacheSize; i++) {
+    double tx = i / (double)cacheSize;
+    double delt = 1 / (double)cacheSize;
+    len += delt * [self gradient_t:tx + delt / 2];
+    _lengthWithTList[i] = len;
+  }
+}
 
 - (double)x:(double)t {
   if (self.curveFuction) {
@@ -63,22 +80,22 @@
 }
 
 - (double)dx_dt:(double)t {
-  if (t < littleDeviation) {
-    return ([self x:littleDeviation] - [self x:0]) / littleDeviation;
-  } else if (t > 1 - littleDeviation) {
-    return ([self x:1] - [self x:1 - littleDeviation]) / littleDeviation;
+  if (t < deviation) {
+    return ([self x:deviation] - [self x:0]) / deviation;
+  } else if (t > 1 - deviation) {
+    return ([self x:1] - [self x:1 - deviation]) / deviation;
   } else {
-    return ([self x:t + littleDeviation] - [self x:t - littleDeviation]) / littleDeviation / 2;
+    return ([self x:t + deviation] - [self x:t - deviation]) / deviation / 2;
   }
 }
 
 - (double)dy_dt:(double)t {
-  if (t < littleDeviation) {
-    return ([self y:littleDeviation] - [self y:0]) / littleDeviation;
-  } else if (t > 1 - littleDeviation) {
-    return ([self y:1] - [self y:1 - littleDeviation]) / littleDeviation;
+  if (t < deviation) {
+    return ([self y:deviation] - [self y:0]) / deviation;
+  } else if (t > 1 - deviation) {
+    return ([self y:1] - [self y:1 - deviation]) / deviation;
   } else {
-    return ([self y:t + littleDeviation] - [self y:t - littleDeviation]) / littleDeviation / 2;
+    return ([self y:t + deviation] - [self y:t - deviation]) / deviation / 2;
   }
 }
 
@@ -93,33 +110,33 @@
   if (t > 1) {
     t = 1;
   }
-  if (self.lineLengthFuction) {
-    return self.lineLengthFuction(t);
+  if (doubleEqual(t, 1)) {
+    return self.length;
   }
-  double res = 0.;
-  double tx;
-  for (tx = 0; tx < t; tx += largeDeviation) {
-    res += largeDeviation * [self gradient_t:tx + largeDeviation / 2];
-  }
-  tx -= largeDeviation;
-  res += (t - tx) * [self gradient_t:(t + tx) / 2];
-  return res;
+  int index = (int)(t * cacheSize);
+  double percent = t * cacheSize - index;
+  double lenMin = index == 0 ? 0 : _lengthWithTList[index - 1];
+  double lenMax = _lengthWithTList[index];
+  return percent * lenMax + (1 - percent) * lenMin;
 }
 
 - (double)v_t:(double)t {
-  if (t == 1) {
+  if (t >= 1) {
     return 1;
   }
-  return [self s_t:t] / [self s_t:1];
+  if (t <= 0) {
+    return 0;
+  }
+  return [self s_t:t] / self.length;
 }
 
 - (double)dv_dt:(double)t {
-  if (t < littleDeviation) {
-    return ([self v_t:littleDeviation] - [self v_t:0]) / littleDeviation;
-  } else if (t > 1 - littleDeviation) {
-    return ([self v_t:1] - [self v_t:1 - littleDeviation]) / littleDeviation;
+  if (t < deviation) {
+    return ([self v_t:deviation] - [self v_t:0]) / deviation;
+  } else if (t > 1 - deviation) {
+    return ([self v_t:1] - [self v_t:1 - deviation]) / deviation;
   } else {
-    return ([self v_t:t + littleDeviation] - [self v_t:t - littleDeviation]) / littleDeviation / 2;
+    return ([self v_t:t + deviation] - [self v_t:t - deviation]) / deviation / 2;
   }
 }
 
@@ -141,11 +158,9 @@
   if (doubleEqual([self v_t:v], v)) {
     return v;
   }
-  double lastT;
   double t = 0.5, testingV = [self v_t:0.5];
   double bigT = 1.0, smallT = 0.0;
   do {
-    lastT = t;
     if (testingV > v) {
       bigT = t;
     } else {
@@ -153,29 +168,8 @@
     }
     t = (bigT + smallT) / 2.;
     testingV = [self v_t:t];
-    if (middleDeviationDoubleEqual(lastT, t)) {
-      break;
-    }
   } while (!doubleEqual(v, testingV));
-  double v_t = [self v_t:t], dv_dt;
-  do {
-    lastT = t;
-    dv_dt = [self dv_dt:t];
-    t -= (v_t - v) / dv_dt;
-    v_t = [self v_t:t];
-    if (middleDeviationDoubleEqual(v, [self v_t:(lastT + t) / 2])) {
-      return (lastT + t) / 2;
-    }
-  } while (!middleDeviationDoubleEqual(v_t, v));
   return t;
-}
-
-- (double)x_v:(double)v {
-  return [self x:[self t_v:v]];
-}
-
-- (double)y_v:(double)v {
-  return [self y:[self t_v:v]];
 }
 
 @end

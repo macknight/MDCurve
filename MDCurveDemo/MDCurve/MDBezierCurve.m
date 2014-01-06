@@ -49,33 +49,32 @@
 
 - (void)addPointPair:(MDPointPair *)pointPair {
   [self.pointPairs addObject:pointPair];
-  [self updateMethod];
 }
 
 - (void)addPointPairs:(NSArray *)pointPairs {
   [self.pointPairs addObjectsFromArray:pointPairs];
-  [self updateMethod];
 }
 
 - (void)updateMethod {
   if (_pointPairs.count < 2) {
     return;
   }
-  int number = self.pointPairs.count - 1;
+  __weak MDBezierCurve *self_weak_ = self;
   super.curveFuction = ^(double t) {
+    NSUInteger number = self_weak_.pointPairs.count - 1;//曲线段数
     if (t >= 1) {
-      return [self pointWithT:1. inIndex:number - 1];
+      return [self_weak_ pointWithT:1. inIndex:number - 1];
     }
     t = t * number;
     int index = (int)t;
     t = t - index;
-    return [self pointWithT:t inIndex:index];
+    return [self_weak_ pointWithT:t inIndex:index];
   };
 }
 
 #pragma mark - calculate method
 
-- (CGPoint)pointWithT:(CGFloat)t inIndex:(int)index {
+- (CGPoint)pointWithT:(CGFloat)t inIndex:(NSUInteger)index {
   if (index > _pointPairs.count - 2) {
     return CGPointZero;
   }
@@ -115,20 +114,5 @@
   }
   return CGPointMake(x, y);
 }
-
-//- (double)lineLengthWithT:(CGFloat)t inIndex:(int)index {
-//  if (index > _pointPairs.count - 2) {
-//    return 0;
-//  }
-//  t = MAX(0, MIN(1, t));
-//  MDPointPair *pointPair0 = _pointPairs[index];
-//  MDPointPair *pointPair1 = _pointPairs[index + 1];
-//  CGPoint p0 = pointPair0.startPoint;
-//  CGPoint p1 = pointPair0.controlPoint;
-//  CGPoint p2 = pointPair1.reverseControlPoint;
-//  CGPoint p3 = pointPair1.startPoint;
-//  
-//  
-//}
 
 @end

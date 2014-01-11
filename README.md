@@ -59,3 +59,19 @@ YES为三阶，NO为二阶。二阶贝塞曲线每一段曲线的三个控制点
 - - (void)addPointPairs:(NSArray *)pointPairs;
 
 用于增加控制点对MDPointPair，此方法取代了父类MDCurve的curveFuction属性
+
+# 效果图
+## MDCurve
+![](http://imageforgithub.qiniudn.com/IMG_0291.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0292.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0293.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0294.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0295.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0296.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0297.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0298.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0299.PNG)
+
+## MDBezierCurve
+![](http://imageforgithub.qiniudn.com/IMG_0304.PNG)
+![](http://imageforgithub.qiniudn.com/IMG_0305.PNG)

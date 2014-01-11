@@ -22,7 +22,6 @@
 		D0DA6C49186C8919004ACD67 /* MDCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C48186C8919004ACD67 /* MDCurve.m */; };
 		D0DA6C4C186C8F52004ACD67 /* MDCurveDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C4B186C8F52004ACD67 /* MDCurveDemoViewController.m */; };
 		D0DA6C4F186C901C004ACD67 /* MDDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DA6C4E186C901C004ACD67 /* MDDemoView.m */; };
-		D0E46E411875C00A00540357 /* MDBezierCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E46E401875C00A00540357 /* MDBezierCurve.m */; };
 		D0E46E441875C08500540357 /* MDPointPair.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E46E431875C08500540357 /* MDPointPair.m */; };
 		D0E46E4D1875D44F00540357 /* MDBezierCurveDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E46E4C1875D44F00540357 /* MDBezierCurveDemoViewController.m */; };
 /* End PBXBuildFile section */
@@ -60,8 +59,6 @@
 		D0DA6C4B186C8F52004ACD67 /* MDCurveDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDCurveDemoViewController.m; sourceTree = "<group>"; };
 		D0DA6C4D186C901C004ACD67 /* MDDemoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDDemoView.h; sourceTree = "<group>"; };
 		D0DA6C4E186C901C004ACD67 /* MDDemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDDemoView.m; sourceTree = "<group>"; };
-		D0E46E3F1875C00A00540357 /* MDBezierCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MDBezierCurve.h; path = MDCurve/MDBezierCurve.h; sourceTree = SOURCE_ROOT; };
-		D0E46E401875C00A00540357 /* MDBezierCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MDBezierCurve.m; path = MDCurve/MDBezierCurve.m; sourceTree = SOURCE_ROOT; };
 		D0E46E421875C08500540357 /* MDPointPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MDPointPair.h; path = MDCurve/MDPointPair.h; sourceTree = SOURCE_ROOT; };
 		D0E46E431875C08500540357 /* MDPointPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MDPointPair.m; path = MDCurve/MDPointPair.m; sourceTree = SOURCE_ROOT; };
 		D0E46E4B1875D44F00540357 /* MDBezierCurveDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDBezierCurveDemoViewController.h; sourceTree = "<group>"; };
@@ -174,8 +171,6 @@
 			children = (
 				D0DA6C47186C8919004ACD67 /* MDCurve.h */,
 				D0DA6C48186C8919004ACD67 /* MDCurve.m */,
-				D0E46E3F1875C00A00540357 /* MDBezierCurve.h */,
-				D0E46E401875C00A00540357 /* MDBezierCurve.m */,
 				D0E46E421875C08500540357 /* MDPointPair.h */,
 				D0E46E431875C08500540357 /* MDPointPair.m */,
 			);
@@ -278,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0DA6C4C186C8F52004ACD67 /* MDCurveDemoViewController.m in Sources */,
-				D0E46E411875C00A00540357 /* MDBezierCurve.m in Sources */,
 				D0E46E441875C08500540357 /* MDPointPair.m in Sources */,
 				D0DA6C1E186C86E3004ACD67 /* AppDelegate.m in Sources */,
 				D0DA6C1A186C86E3004ACD67 /* main.m in Sources */,

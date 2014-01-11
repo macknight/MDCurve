@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MDPointPair.h"
 
 typedef CGPoint(^MDCurvePointFuction)(double v);
 typedef double(^MDCurveFuction)(double x);
@@ -17,13 +18,22 @@ typedef double(^MDCurveFuction)(double x);
  *  给出线长函数反函数的时候，性能最高，其次是给线长函数，如果只给曲线函数，性能比较低。
  */
 @property (nonatomic, copy) MDCurvePointFuction curveFuction;
-@property (nonatomic, copy) MDCurveFuction lineLengthInverseFunction;
 
-@property (nonatomic, readonly) double length;
-
+- (double)length;
 - (CGPoint)pointWithUniformT:(double)v;
 - (void)drawInContext:(CGContextRef)context step:(int)step;
 - (void)drawInCurrentContextWithStep:(int)step;
-- (void)generateLengthCache;
+
+@end
+
+
+@interface MDBezierCurve : MDCurve
+
+@property (nonatomic, assign) BOOL isCubic;
+
+- (id)initWithStartPointPair0:(MDPointPair *)pointPair0 pointPair1:(MDPointPair *)pointPair1;
+
+- (void)addPointPair:(MDPointPair *)pointPair;
+- (void)addPointPairs:(NSArray *)pointPairs;
 
 @end

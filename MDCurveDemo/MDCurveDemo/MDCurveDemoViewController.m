@@ -25,9 +25,6 @@
    *  edit this
    */
   demoView.curve.curveFuction = [self f0];
-  
-  //提供以下代码可以进一步节省CPU, 如果曲线不是f0，请注释掉
-  demoView.curve.lineLengthInverseFunction = [self lineLengthInverseFunction0];
 }
 
 /**

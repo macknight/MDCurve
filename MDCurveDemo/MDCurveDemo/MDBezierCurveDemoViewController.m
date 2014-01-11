@@ -7,7 +7,7 @@
 //
 
 #import "MDBezierCurveDemoViewController.h"
-#import "MDBezierCurve.h"
+#import "MDCurve.h"
 #import "MDDemoView.h"
 #import "mach/mach_time.h"
 
@@ -28,19 +28,17 @@
 }
 
 - (MDDemoView *)demoView {
-  
   MDDemoView *demoView = [[MDDemoView alloc] initWithFrame:CGRectMake(0, 0, 3000, 5000)];
   
   MDBezierCurve *curve = [[MDBezierCurve alloc] initWithStartPointPair0:pointPairWithCoordinate(0, 20, 320, 60)
                                                              pointPair1:pointPairWithCoordinate(100, 100, 0, 160)];
   curve.isCubic = YES;
-  [curve addPointPair:pointPairWithCoordinate(300, 200, 200, 250)];
-  [curve addPointPair:pointPairWithCoordinate(30, 200, 20, 250)];
-  [curve addPointPair:pointPairWithCoordinate(130, 20, 220, 50)];
-  [curve addPointPair:pointPairWithCoordinate(320, 500, 20, 500)];
-  [curve addPointPair:pointPairWithCoordinate(30, 500, 220, 203)];
   uint64_t start = mach_absolute_time();
-  [curve generateLengthCache];
+  [curve addPointPairs:@[pointPairWithCoordinate(300, 200, 200, 250),
+                         pointPairWithCoordinate(30, 200, 20, 250),
+                         pointPairWithCoordinate(130, 20, 220, 50),
+                         pointPairWithCoordinate(320, 500, 20, 500),
+                         pointPairWithCoordinate(30, 500, 220, 203)]];
   uint64_t end = mach_absolute_time();
   uint64_t elapsed = end - start;
   

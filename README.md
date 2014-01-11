@@ -1,55 +1,61 @@
-MDCurve
-=======
+# MDCurve
 
 MDCurve 用于解决曲线运算，并提供按线长比例定位的方法。
 
-MDCurve 有三个block：
+## 1.属性MDCurvePointFuction用于给出曲线方程：
 
 @property (nonatomic, copy) MDCurvePointFuction curveFuction;
-
-@property (nonatomic, copy) MDCurveFuction lineLengthFuction;
-
-@property (nonatomic, copy) MDCurveFuction lineLengthInverseFunction;
-
-其中curveFuction提供曲线方程：
 
 该属性必须赋值t的取值范围是0~1
 
       x = x(t);
       y = y(t);
 
+## 2.MDCurve提供四个方法：
 
-lineLengthFuction是线长对t的函数：
+length 方法获取曲线总长度：
 
-该属性选择性赋值。该属性如果正确赋值，能较大程度上提高运算效率，降低CPU资源消耗。
+- - (double)length;
 
-      s = s(t);
 
-lineLengthInverseFunction是lineLengthFuction的反函数：
+pointWithUniformT 方法是MDCurve的核心方法，作用是获取曲线上某点，该点到曲线起点的曲线上距离为v乘以曲线长度，也就是说v控制了该点在曲线上的位置，并且是等比控制：
 
-该属性选择性赋值。该属性如果正确赋值，能较大程度上提高运算效率，降低CPU资源消耗。
+- - (CGPoint)pointWithUniformT:(double)v;
 
-      t = t(s);
+
+在上下文context中绘制曲线:
+
+- - (void)drawInContext:(CGContextRef)context step:(int)step;
+
+
+在当前上下文中绘制曲线:
+
+- - (void)drawInCurrentContextWithStep:(int)step;
 
 =======
 
-MDCurve提供四个方法：
-
-获取曲线总长度：
-
-- (double)length;
 
 
-这个方法是MDCurve的核心方法，作用是获取曲线上某点，该点到曲线起点的曲线上距离为v乘以曲线长度，也就是说v控制了该点在曲线上的位置，并且是等比控制：
+# MDBezierCurve
 
-- (CGPoint)pointWithUniformT:(double)v;
+MDCurve的子类，屏蔽了curveFuction属性，而是采用贝塞曲线的方式提供曲线函数
 
+## 1.MDBezierCurve提供一个开关，用于控制贝塞曲线的阶:
 
-在上下文context中绘制曲线
+- @property (nonatomic, assign) BOOL isCubic;
 
-- (void)drawInContext:(CGContextRef)context step:(int)step;
+YES为三阶，NO为二阶。二阶贝塞曲线每一段曲线的三个控制点为每个MDPointPair以及下一个MDPointPair的startPoint，而三阶贝塞曲线的四个控制点为每个MDPointPair以及下一个MDPointPair的startPoint，再加上此MDPointPair的controlPoint相对其startPoint的镜像，这样设计的目的是和photoshop中贝塞曲线的绘制方法保持一致。
 
+## 2.MDBezierCurve提供一个init方法：
 
-在当前上下文中绘制曲线
+- - (id)initWithStartPointPair0:(MDPointPair *)pointPair0 pointPair1:(MDPointPair *)pointPair1;
 
-- (void)drawInCurrentContextWithStep:(int)step;
+一条贝塞曲线至少需要两对控制点来控制。
+
+## 3.MDBezierCurve提供两个增加点的方法:
+
+- - (void)addPointPair:(MDPointPair *)pointPair;
+
+- - (void)addPointPairs:(NSArray *)pointPairs;
+
+用于增加控制点对MDPointPair，此方法取代了父类MDCurve的curveFuction属性

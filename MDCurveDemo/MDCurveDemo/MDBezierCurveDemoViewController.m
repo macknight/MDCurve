@@ -11,7 +11,9 @@
 #import "MDDemoView.h"
 #import "mach/mach_time.h"
 
-@interface MDBezierCurveDemoViewController ()
+@interface MDBezierCurveDemoViewController () <UIActionSheetDelegate> {
+  MDDemoView *_demoView;
+}
 
 @end
 
@@ -19,21 +21,29 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
-  UIView *view = [self demoView];
+  [self demoView];
+  
+  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height - 44.f)];
+  UIView *view = _demoView;
   view.backgroundColor = [UIColor lightGrayColor];
   [scrollView addSubview:view];
   scrollView.contentSize = view.frame.size;
   scrollView.contentInset = UIEdgeInsetsMake(64.f, 0, 0, 0);
   [self.view addSubview:scrollView];
+  
+  UIButton *_button = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44.f, 320.f, 44.f)];
+  [_button setTitle:@"二阶/三阶" forState:UIControlStateNormal];
+  [_button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+  [_button addTarget:self action:@selector(chooseCurve) forControlEvents:UIControlEventTouchUpInside];
+  [self.view addSubview:_button];
 }
 
-- (MDDemoView *)demoView {
+- (void)demoView {
   MDDemoView *demoView = [[MDDemoView alloc] initWithFrame:CGRectMake(0, 0, 320, 600)];
   
   MDBezierCurve *curve = [[MDBezierCurve alloc] initWithStartPointPair0:pointPairWithCoordinate(0, 20, 320, 60)
                                                              pointPair1:pointPairWithCoordinate(100, 100, 0, 160)];
-  curve.isCubic = YES;
+  curve.isCubic = NO;
   uint64_t start = mach_absolute_time();
   [curve addPointPairs:@[pointPairWithCoordinate(300, 200, 200, 250),
                          pointPairWithCoordinate(30, 200, 20, 250),
@@ -52,7 +62,13 @@
   uint64_t millisecs = nanosecs / 1000000;
   NSLog(@"cache用时：%llu", millisecs);
   demoView.curve = curve;
-  return demoView;
+  _demoView = demoView;
+}
+
+- (void)chooseCurve {
+  MDBezierCurve *bezierCurve = (MDBezierCurve *)_demoView.curve;
+  bezierCurve.isCubic = !bezierCurve.isCubic;
+  [_demoView setNeedsDisplay];
 }
 
 @end

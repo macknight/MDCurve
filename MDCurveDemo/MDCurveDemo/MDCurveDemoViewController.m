@@ -24,7 +24,7 @@
   [self f0];
   [self.view addSubview:_demoView];
   
-  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height - 44.f)];
   UIView *view = _demoView;
   view.backgroundColor = [UIColor lightGrayColor];
   [scrollView addSubview:view];

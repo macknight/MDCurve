@@ -15,6 +15,7 @@
   MDCurveDemoViewController *_curveController;
   
   UIButton *_button;
+  UILabel *_label;
 }
 
 @end
@@ -24,12 +25,17 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 150.f, 44.f)];
+  _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44.f, 44.f)];
   [_button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   [_button addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
-  [_button setTitle:@"MDCurve" forState:UIControlStateNormal];
-  [_button setTitle:@"MDBezierCurve" forState:UIControlStateSelected];
-  [self.navigationItem setTitleView:_button];
+  [_button setTitle:@"tap" forState:UIControlStateNormal];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+  
+  _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150.f, 44.f)];
+  _label.backgroundColor = [UIColor clearColor];
+  _label.text = @"MDCurve";
+  _label.textAlignment = NSTextAlignmentCenter;
+  [self.navigationItem setTitleView:_label];
   
   _curveController = [[MDCurveDemoViewController alloc] init];
   _bezierController = [[MDBezierCurveDemoViewController alloc] init];
@@ -48,6 +54,7 @@
                           animations:NULL
                           completion:NULL];
   _button.selected = !_button.selected;
+  _label.text = _button.selected ? @"MDBezierCurve" : @"MDCurve";
 }
 
 @end

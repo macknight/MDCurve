@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MDCurveDemoViewController.h"
-#import "MDBezierCurveDemoViewController.h"
+#import "MDDemoViewController.h"
 
 @implementation AppDelegate
 
@@ -16,8 +15,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-  MDBezierCurveDemoViewController *controller = [[MDBezierCurveDemoViewController alloc] init];
-  self.window.rootViewController = controller;
+  MDDemoViewController *controller = [[MDDemoViewController alloc] init];
+  UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+  self.window.rootViewController = navigation;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

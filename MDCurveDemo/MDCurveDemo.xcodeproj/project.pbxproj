@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D07A7432188173D0001EF549 /* MDDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A7431188173D0001EF549 /* MDDemoViewController.m */; };
 		D0DA6C0E186C86E3004ACD67 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0DA6C0D186C86E3004ACD67 /* Foundation.framework */; };
 		D0DA6C10186C86E3004ACD67 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0DA6C0F186C86E3004ACD67 /* CoreGraphics.framework */; };
 		D0DA6C12186C86E3004ACD67 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0DA6C11186C86E3004ACD67 /* UIKit.framework */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D07A7430188173D0001EF549 /* MDDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDDemoViewController.h; sourceTree = "<group>"; };
+		D07A7431188173D0001EF549 /* MDDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDDemoViewController.m; sourceTree = "<group>"; };
 		D0DA6C0A186C86E3004ACD67 /* MDCurveDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MDCurveDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DA6C0D186C86E3004ACD67 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D0DA6C0F186C86E3004ACD67 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -131,6 +134,8 @@
 				D0DA6C4B186C8F52004ACD67 /* MDCurveDemoViewController.m */,
 				D0E46E4B1875D44F00540357 /* MDBezierCurveDemoViewController.h */,
 				D0E46E4C1875D44F00540357 /* MDBezierCurveDemoViewController.m */,
+				D07A7430188173D0001EF549 /* MDDemoViewController.h */,
+				D07A7431188173D0001EF549 /* MDDemoViewController.m */,
 			);
 			path = MDCurveDemo;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				D0DA6C1A186C86E3004ACD67 /* main.m in Sources */,
 				D0E46E4D1875D44F00540357 /* MDBezierCurveDemoViewController.m in Sources */,
 				D0DA6C49186C8919004ACD67 /* MDCurve.m in Sources */,
+				D07A7432188173D0001EF549 /* MDDemoViewController.m in Sources */,
 				D0DA6C4F186C901C004ACD67 /* MDDemoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

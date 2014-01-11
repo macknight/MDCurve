@@ -10,7 +10,7 @@
 #import "MDCurve.h"
 #import "mach/mach_time.h"
 
-#define pointCount 500
+#define pointCount 200
 
 @implementation MDDemoView
 
@@ -25,13 +25,17 @@
   [self setNeedsDisplay];
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-      self.backgroundColor = [UIColor whiteColor];
-    }
-    return self;
+- (id)initWithFrame:(CGRect)frame {
+  self = [super initWithFrame:frame];
+  if (self) {
+    self.backgroundColor = [UIColor whiteColor];
+  }
+  return self;
+}
+
+- (void)setCurveFunction:(MDCurvePointFuction)function {
+  self.curve.curveFuction = function;
+  [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {

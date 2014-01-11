@@ -1,0 +1,53 @@
+//
+//  MDDemoViewController.m
+//  MDCurveDemo
+//
+//  Created by 杨晨 on 1/11/14.
+//  Copyright (c) 2014 杨晨. All rights reserved.
+//
+
+#import "MDDemoViewController.h"
+#import "MDBezierCurveDemoViewController.h"
+#import "MDCurveDemoViewController.h"
+
+@interface MDDemoViewController () {
+  MDBezierCurveDemoViewController *_bezierController;
+  MDCurveDemoViewController *_curveController;
+  
+  UIButton *_button;
+}
+
+@end
+
+@implementation MDDemoViewController
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  
+  _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 150.f, 44.f)];
+  [_button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+  [_button addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
+  [_button setTitle:@"MDCurve" forState:UIControlStateNormal];
+  [_button setTitle:@"MDBezierCurve" forState:UIControlStateSelected];
+  [self.navigationItem setTitleView:_button];
+  
+  _curveController = [[MDCurveDemoViewController alloc] init];
+  _bezierController = [[MDBezierCurveDemoViewController alloc] init];
+  
+  [self addChildViewController:_curveController];
+  [self addChildViewController:_bezierController];
+  
+  [self.view addSubview:_curveController.view];
+}
+
+- (void)click {
+  [self transitionFromViewController:_button.selected ? _bezierController : _curveController
+                    toViewController:_button.selected ? _curveController : _bezierController
+                            duration:1
+                             options:_button.selected ? UIViewAnimationOptionTransitionFlipFromLeft : UIViewAnimationOptionTransitionFlipFromRight
+                          animations:NULL
+                          completion:NULL];
+  _button.selected = !_button.selected;
+}
+
+@end

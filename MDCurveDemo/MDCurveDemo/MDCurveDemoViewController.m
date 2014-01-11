@@ -9,7 +9,9 @@
 #import "MDCurveDemoViewController.h"
 #import "MDDemoView.h"
 
-@interface MDCurveDemoViewController ()
+@interface MDCurveDemoViewController () <UIActionSheetDelegate> {
+  MDDemoView *_demoView;
+}
 
 @end
 
@@ -18,113 +20,137 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  MDDemoView *demoView = [[MDDemoView alloc] initWithFrame:CGRectMake(0, 0, 320, 568)];
-  [self.view addSubview:demoView];
+  _demoView = [[MDDemoView alloc] initWithFrame:CGRectMake(0, 0, 320, 600)];
+  [self f0];
+  [self.view addSubview:_demoView];
   
-  /**
-   *  edit this
-   */
-  demoView.curve.curveFuction = [self f0];
+  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+  UIView *view = _demoView;
+  view.backgroundColor = [UIColor lightGrayColor];
+  [scrollView addSubview:view];
+  scrollView.contentSize = view.frame.size;
+  [self.view addSubview:scrollView];
+  
+  UIButton *_button = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44.f, 320.f, 44.f)];
+  [_button setTitle:@"选择曲线" forState:UIControlStateNormal];
+  [_button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+  [_button addTarget:self action:@selector(chooseCurve) forControlEvents:UIControlEventTouchUpInside];
+  [self.view addSubview:_button];
+}
+
+- (void)chooseCurve {
+  UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择曲线"
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                       destructiveButtonTitle:nil
+                                            otherButtonTitles:
+                          @"圆",
+                          @"正弦曲线",
+                          @"心型",
+                          @"螺旋线",
+                          @"椭圆螺旋线",
+                          @"8字",
+                          @"歪8字",
+                          @"呵呵8字",
+                          @"直线",
+                          @"分段函数（长方形）",
+                          nil];
+  [sheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  SEL selector = NSSelectorFromString([NSString stringWithFormat:@"f%ld", (long)buttonIndex]);
+  IMP imp = [self methodForSelector:selector];
+  void (*func)(id, SEL) = (void *)imp;
+  func(self, selector);
 }
 
 /**
  *  圆
  */
-- (MDCurvePointFuction)f0 {
-  return ^(double t) {
-    return CGPointMake(160 + 50 * cos(t * 2 * M_PI), 300 + 50 * sin(t * 2 * M_PI));
-  };
-}
-
-- (MDCurveFuction)lineLength0 {
-  return ^(double t) {
-    return 50 * 2 * M_PI * t;
-  };
-}
-
-- (MDCurveFuction)lineLengthInverseFunction0 {
-  return ^(double s) {
-    return s / (50 * 2 * M_PI);
-  };
+- (void)f0 {
+  [_demoView setCurveFunction:^(double t) {
+    return CGPointMake(160 + 150 * cos(t * 2 * M_PI), 250 + 150 * sin(t * 2 * M_PI));
+  }];
 }
 
 /*
  *正弦曲线
  */
-- (MDCurvePointFuction)f1 {
-  return ^(double t) {
-    return CGPointMake(320 * t, 50 * sin(t * 2 * M_PI) + 160);
-  };
+- (void)f1 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(320 * t, 150 * sin(t * 2 * M_PI) + 260);
+  }];
 }
 
 /*
- *丑陋的心型
+ *心型
  */
-- (MDCurvePointFuction)f2 {
-  return ^(double t) {
-    return CGPointMake(50 * sin(t * M_PI) * sin(t * 2 * M_PI) + 160,
-                       -50 * sin(t * M_PI) * cos(t * 2 * M_PI) + 300);
-  };
+- (void)f2 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(200 * sin(t * M_PI) * sin(t * 2 * M_PI) + 160,
+                       -200 * sin(t * M_PI) * cos(t * 2 * M_PI) + 160);
+  }];
 }
 
 /**
  *  螺旋线
  */
-- (MDCurvePointFuction)f3 {
-  return ^(double t) {
-    return CGPointMake(50 * t * sin(t * 4 * M_PI) + 160,
-                       50 * t * cos(t * 4 * M_PI) + 300);
-  };
+- (void)f3 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(180 * t * sin(t * 4 * M_PI) + 180,
+                       180 * t * cos(t * 4 * M_PI) + 300);
+  }];
 }
 
 /**
  *  椭圆螺旋线
  */
-- (MDCurvePointFuction)f4 {
-  return ^(double t) {
-    return CGPointMake(50 * t * sin(t * 4 * M_PI) + 160,
-                       150 * t * cos(t * 4 * M_PI) + 300);
-  };
+- (void)f4 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(100 * t * sin(t * 4 * M_PI) + 160,
+                       200 * t * cos(t * 4 * M_PI) + 300);
+  }];
 }
 
 /**
- *  8字螺旋线
+ *  8字
  */
-- (MDCurvePointFuction)f5 {
-  return ^(double t) {
-    return CGPointMake(50 * sin(t * 4 * M_PI) + 160,
-                       50 * cos(t * 2 * M_PI) + 300);
-  };
+- (void)f5 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(150 * sin(t * 4 * M_PI) + 160,
+                       200 * cos(t * 2 * M_PI) + 300);
+  }];
 }
 
 /**
  *  歪8字
  */
-- (MDCurvePointFuction)f6 {
-  return ^(double t) {
-    return CGPointMake(50 * t * sin(t * 4 * M_PI) + 160,
-                       50 * cos(t * 2 * M_PI) + 300);
-  };
+- (void)f6 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(150 * t * sin(t * 4 * M_PI) + 160,
+                       200 * cos(t * 2 * M_PI) + 300);
+  }];
 }
 
 /**
  *  呵呵8字
  */
-- (MDCurvePointFuction)f7 {
-  return ^(double t) {
-    return CGPointMake(50 * t * sin(t * 4 * M_PI) + 160,
-                       50 * t * cos(t * 2 * M_PI) + 300);
-  };
+- (void)f7 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(150 * t * sin(t * 4 * M_PI) + 160,
+                       200 * t * cos(t * 2 * M_PI) + 300);
+  }];
 }
 
 /**
  *  直线, 求反函数时候全是不动点
  */
-- (MDCurvePointFuction)f8 {
-  return ^(double t) {
-    return CGPointMake(50 * t + 160,
-                       50 * t + 300);
-  };
+- (void)f8 {
+  [_demoView setCurveFunction: ^(double t) {
+    return CGPointMake(300 * t + 10,
+                       300 * t + 100);
+  }];
 }
 
 /**
@@ -132,12 +158,12 @@
  *  PS:好复杂，画个长方形都这么烦
  */
 
-- (MDCurvePointFuction)f9 {
-  return ^(double t) {
-    CGFloat x = 160;
-    CGFloat y = 300;
-    CGFloat width = 30;
-    CGFloat height = 77;
+- (void)f9 {
+  [_demoView setCurveFunction: ^(double t) {
+    CGFloat x = 10;
+    CGFloat y = 100;
+    CGFloat width = 300;
+    CGFloat height = 400;
     if (t <= 0.25) {
       return CGPointMake(x, y + t * height / 0.25);
     }
@@ -148,31 +174,7 @@
       return CGPointMake(x + width, y + height - (t - 0.5) * height / 0.25);
     }
     return CGPointMake(x + width - (t - 0.75) * width / 0.25, y);
-  };
-}
-
-/**
- *  不连续的曲线
- */
-
-- (MDCurvePointFuction)f10 {
-  return ^(double t) {
-    if (t < 0.5) {
-      return CGPointMake(160, 300 + t * 50);
-    }
-    return CGPointMake(200, 300 + t * 50);
-  };
-}
-
-/**
- *  随机曲线。。。。。显然不行，再求导数的时候会得到奇怪的数字
- */
-
-- (MDCurvePointFuction)f11 {
-  NSLog(@"f11是一条随机曲线，运行是会出问题的");
-  return ^(double t) {
-    return CGPointMake(arc4random() % 100 + 80, arc4random() % 130 + 300);
-  };
+  }];
 }
 
 @end

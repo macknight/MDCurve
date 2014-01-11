@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) MDCurve *curve;
 
+- (void)setCurveFunction:(MDCurvePointFuction)function;
+
 @end

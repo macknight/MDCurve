@@ -13,6 +13,7 @@
 
 @interface MDBezierCurveDemoViewController () <UIActionSheetDelegate> {
   MDDemoView *_demoView;
+  UIButton *_button;
 }
 
 @end
@@ -31,8 +32,8 @@
   scrollView.contentInset = UIEdgeInsetsMake(64.f, 0, 0, 0);
   [self.view addSubview:scrollView];
   
-  UIButton *_button = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44.f, 320.f, 44.f)];
-  [_button setTitle:@"二阶/三阶" forState:UIControlStateNormal];
+  _button = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 44.f, 320.f, 44.f)];
+  [_button setTitle:@"二阶" forState:UIControlStateNormal];
   [_button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   [_button addTarget:self action:@selector(chooseCurve) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:_button];
@@ -68,6 +69,7 @@
 - (void)chooseCurve {
   MDBezierCurve *bezierCurve = (MDBezierCurve *)_demoView.curve;
   bezierCurve.isCubic = !bezierCurve.isCubic;
+  [_button setTitle:bezierCurve.isCubic ? @"三阶" : @"二阶" forState:UIControlStateNormal];
   [_demoView setNeedsDisplay];
 }
 
